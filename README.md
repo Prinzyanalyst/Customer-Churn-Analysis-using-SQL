@@ -222,3 +222,34 @@ Analyzing the number of interactions per interaction channel helps understand th
       
     SELECT interaction_channel, COUNT(*) AS channel_count 
       FROM interactions GROUP BY interaction_channel;
+
+## 5. Additional Analysis
+
+*Identify the customers who made a purchase but did not churn.*
+
+This task helps identify customers who continue to make purchases despite not churning. It can provide insights into factors contributing to customer loyalty.
+
+    SELECT customers.customer_id, customers.name 
+       FROM customers LEFT JOIN churn ON customers.customer_id = churn.customer_id 
+       LEFT JOIN purchases ON customers.customer_id = purchases.customer_id 
+       WHERE churn.customer_id IS NULL AND purchases.customer_id IS NOT NULL;
+*Determine the most common interaction channel among customers who churned.*
+
+Analyzing the most common interaction channel among churned customers helps understand their preferred mode of communication. 
+It can guide efforts to improve customer engagement.
+
+    SELECT interaction_channel, COUNT(*) AS channel_count 
+      FROM interactions 
+      INNER JOIN churn ON interactions.customer_id = churn.customer_id 
+      GROUP BY interaction_channel 
+      ORDER BY channel_count DESC 
+      LIMIT 1;
+*Calculate the average number of interactions before churning for customers who churned.* 
+
+Analyzing the average number of interactions before churn helps identify the level of customer engagement leading up to churn. 
+It provides insights into potential patterns or triggers for churn.
+
+     SELECT AVG(interaction_count) AS average_interactions_before_churn 
+       FROM (SELECT customer_id, COUNT(*) AS interaction_count 
+       FROM interactions WHERE customer_id IN (SELECT DISTINCT customer_id FROM churn) 
+       GROUP BY customer_id) AS subquery;     
