@@ -265,7 +265,7 @@ It provides insights into potential patterns or triggers for churn.
 
 4. **Enhance customer experience:** Assess customer interactions and identify areas for improvement. Streamline and simplify the purchasing process, provide responsive customer support, and gather customer feedback to address pain points and enhance the overall customer experience.
 
-5 **Targeted marketing efforts:** Utilize the insights gained from analyzing purchase behavior by gender to tailor marketing campaigns. Develop targeted marketing messages and promotions that resonate with each gender segment to improve customer engagement and increase sales.
+5. **Targeted marketing efforts:** Utilize the insights gained from analyzing purchase behavior by gender to tailor marketing campaigns. Develop targeted marketing messages and promotions that resonate with each gender segment to improve customer engagement and increase sales.
 
 6. **Retain high-value customers:** Identify customers who make frequent purchases and engage with the brand actively. Implement a customer loyalty program that rewards and recognizes these customers, providing incentives for continued loyalty and referrals.
 
