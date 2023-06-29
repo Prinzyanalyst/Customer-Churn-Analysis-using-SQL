@@ -87,21 +87,18 @@ This task provides an overview of the dataset by determining the total count of 
 
     SELECT COUNT(*) AS total_customers 
       FROM customers;
-
 *Calculate the average age of customers*
 
 By calculating the average age, I can gain insights into the age demographics of the customer base. It can help identify potential age-related patterns or preferences.      
 
       SELECT AVG(age) AS average_age 
         FROM customers;
-
 *Determine the total number of interactions in the dataset.*
 
 This task provides an understanding of the overall customer engagement by determining the total count of interactions. It helps to gauge the level of customer activity.
 
      SELECT COUNT(*) AS total_interactions 
        FROM interactions;
-
 *Find the most common interaction channel used by customers.*
 
 Identifying the most common interaction channel helps businesses understand the preferred communication channels of their customers. It can guide resource allocation and communication strategies.
@@ -120,14 +117,12 @@ Churn rate measures the percentage of customers who have discontinued their rela
      SELECT (COUNT(DISTINCT customer_id) * 100.0) / (SELECT COUNT(*) FROM customers) 
        AS churn_rate
        FROM churn;
-
 *Identify the number of customers who churned.*
 
 Determining the count of churned customers provides insights into the magnitude of customer churn and helps assess the impact on the business.
 
      SELECT COUNT(DISTINCT customer_id) AS churned_customers 
       FROM churn;
-
 * Determine the average churn time for customers who churned.*
 
 Average churn time measures the average duration between the first interaction and churn date for customers who have churned. 
@@ -136,7 +131,6 @@ It helps understand the typical customer lifespan.
     SELECT AVG(DATEDIFF(churn_date, (SELECT MIN(date) 
       FROM interactions WHERE customer_id = churn.customer_id))) 
       AS average_churn_time FROM churn;
-
  *Find the percentage of churned customers by gender.*
 
 Analyzing churn rates by gender provides insights into potential gender-based variations in customer retention.
@@ -145,14 +139,47 @@ It helps identify any gender-specific patterns that may impact churn.
     SELECT gender, (COUNT(DISTINCT customer_id) * 100.0) / (SELECT COUNT(*) FROM churn) AS churn_percentage 
       FROM churn 
       GROUP BY gender; 
-
 *Calculate the average age of churned customers.*
 
 Analyzing the average age of churned customers helps identify if there are any age-related factors contributing to customer churn.
 It helps assess the impact of age on churn behavior.
-
-     SELECT AVG(age) AS average_age 
+  
+    SELECT AVG(age) AS average_age 
        FROM churn 
-       INNER JOIN customers ON churn.customer_id = customers.customer_id;
+       INNER JOIN customers ON churn.customer_id = customers.customer_id;        
+## 3. Purchase Analysis
 
-         
+*Determine the total revenue generated from purchases.*
+
+Calculating the total revenue provides an overview of the financial impact of customer purchases. It helps evaluate the overall sales performance.
+
+    SELECT SUM(price) AS total_revenue 
+     FROM purchases;
+*Calculate the average price of products purchased.*
+
+Analyzing the average price of products helps understand customer spending patterns and price preferences. It can guide pricing strategies and product offerings.
+
+    SELECT AVG(price) AS average_price 
+    FROM purchases;
+*Identify the top 5 products with the highest revenue.*
+
+Identifying the top-selling products based on revenue helps focus on the most profitable products. It can guide inventory management and marketing strategies.
+
+    SELECT product_id, SUM(price) AS revenue 
+      FROM purchases GROUP BY product_id 
+      ORDER BY revenue DESC 
+      LIMIT 5; 
+*Determine the average number of purchases per customer.*
+
+Analyzing the average number of purchases per customer provides insights into customer buying behavior. It helps assess customer loyalty and engagement.
+
+    SELECT COUNT(*) / COUNT(DISTINCT customer_id) AS average_purchases_per_customer
+      FROM purchases;
+*Find the average purchase price by gender.*
+
+Analyzing the average purchase price by gender helps identify any gender-based variations in spending patterns.
+It can guide marketing efforts and product targeting.
+
+    SELECT gender, AVG(price) AS average_purchase_price 
+      FROM purchases 
+      INNER JOIN customers ON purchases.customer_id = customers.customer_id GROUP BY gender;
