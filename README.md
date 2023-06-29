@@ -183,3 +183,42 @@ It can guide marketing efforts and product targeting.
     SELECT gender, AVG(price) AS average_purchase_price 
       FROM purchases 
       INNER JOIN customers ON purchases.customer_id = customers.customer_id GROUP BY gender;
+
+## 4. Customer Interaction Analysis
+
+*Determine the number of interactions per customer.*
+
+Analyzing the number of interactions per customer helps understand customer engagement levels. It can highlight highly active or disengaged customers.
+
+     SELECT customer_id, COUNT(*) AS interaction_count 
+       FROM interactions GROUP BY customer_id;
+
+
+
+d. SELECT interaction_channel, COUNT(*) AS channel_count FROM interactions GROUP BY interaction_channel;
+
+ *Identify the most common interaction type.*
+
+Determining the most common interaction type provides insights into the preferred mode of customer engagement. 
+It can guide communication strategies and resource allocation.
+
+    SELECT interaction_type, COUNT(*) AS type_count 
+      FROM interactions 
+      GROUP BY interaction_type
+      ORDER BY type_count DESC 
+      LIMIT 1;
+*Calculate the average number of interactions per customer by gender.*
+
+Analyzing the average number of interactions per customer by gender helps identify any gender-based variations in customer engagement. 
+It can guide personalized communication strategies.
+
+     SELECT gender, AVG(interaction_count) AS average_interactions 
+       FROM (SELECT customer_id, COUNT(*) AS interaction_count 
+       FROM interactions GROUP BY customer_id) AS subquery 
+       INNER JOIN customers ON subquery.customer_id = customers.customer_id GROUP BY gender;
+*Find the number of interactions per interaction channel.*
+
+Analyzing the number of interactions per interaction channel helps understand the distribution of customer interactions across different communication channels. It can guide channel-specific strategies.
+      
+    SELECT interaction_channel, COUNT(*) AS channel_count 
+      FROM interactions GROUP BY interaction_channel;
